@@ -1,0 +1,783 @@
+# SFC — Story First Culture
+
+# Functional Specification — MVP
+
+**Document Version:** 0.1
+**Status:** Draft
+**Completion Estimate:** ~50%
+**Last Updated:** 2026-07-12
+
+---
+
+# 1. Purpose
+
+This document defines the functional requirements for the Minimum Viable Product (MVP) version of SFC.
+
+The purpose of the MVP is to validate the core hypothesis:
+
+> People want to create and consume stories using a structured multimedia format that is different from traditional social media.
+
+The MVP should focus on:
+
+* creator workflow,
+* story creation,
+* multimedia presentation,
+* viewer experience.
+
+Advanced features are intentionally excluded.
+
+---
+
+# 2. MVP Product Scope
+
+## Included in MVP
+
+The MVP must support:
+
+* User accounts
+* Creator identity
+* Channels
+* Series
+* Seasons
+* Episodes
+* Pages
+* Multimedia components
+* Audio playback
+* Canvas-based viewing
+* Publishing workflow
+* Public discovery
+* Basic comments/reviews
+
+---
+
+## Excluded from MVP
+
+The MVP will not include:
+
+* Collaboration
+* Groups
+* Organizations
+* Paid content
+* Subscription system
+* Advanced permissions
+* AI creation tools
+* Advanced analytics
+* Marketplace features
+
+---
+
+# 3. User Types
+
+---
+
+# 3.1 Viewer
+
+## Definition
+
+A person who consumes SFC content.
+
+---
+
+## Viewer Capabilities
+
+A Viewer can:
+
+* browse Channels,
+* search content,
+* view published stories,
+* play Episodes,
+* play Pages,
+* view individual components,
+* comment,
+* review,
+* reply.
+
+---
+
+# 3.2 Creator
+
+## Definition
+
+An authenticated user who creates and publishes content.
+
+---
+
+## Creator Requirements
+
+A Creator must:
+
+* have an authenticated account,
+* have an approved Creator identity,
+* comply with SFC terms of use.
+
+---
+
+## Creator Capabilities
+
+A Creator can:
+
+* create Channels,
+* create Series,
+* create Episodes,
+* design Pages,
+* upload media,
+* publish content,
+* manage ownership.
+
+---
+
+# 4. Account Management
+
+---
+
+# 4.1 Account Creation
+
+The system shall allow users to create accounts.
+
+---
+
+## MVP Requirement
+
+Users must provide sufficient identity information for accountability.
+
+Anonymous content creation is not allowed.
+
+---
+
+## Public Information
+
+The following are separate:
+
+Private identity information:
+
+* legal/account information.
+
+Public identity:
+
+* Creator profile,
+* Channel identity.
+
+---
+
+# 4.2 Creator Activation
+
+A user must become an approved Creator before publishing content.
+
+---
+
+# 4.3 Channel Limits
+
+MVP:
+
+A Creator may own:
+
+```text
+Maximum Channels:
+
+3
+```
+
+---
+
+# 5. Channel Management
+
+---
+
+# 5.1 Create Channel
+
+Creators can create Channels.
+
+Required information:
+
+* Channel name
+* Description
+* Category/tags
+* Visibility setting
+* PG rating
+
+---
+
+# 5.2 Channel Identity
+
+A Channel represents the public publisher.
+
+The Channel should contain:
+
+* branding,
+* description,
+* content categories,
+* published stories.
+
+---
+
+# 5.3 Channel States
+
+The system shall support:
+
+```text
+Active
+
+Archived
+
+Deleted
+```
+
+---
+
+# 5.4 Channel Visibility
+
+MVP:
+
+Supported:
+
+```text
+Public
+```
+
+Future:
+
+```text
+Private
+```
+
+---
+
+# 6. Series Management
+
+---
+
+# 6.1 Create Series
+
+A Creator can create multiple Series within a Channel.
+
+---
+
+## Required Information
+
+* Title
+* Description
+* Tags
+* Visibility
+* PG rating
+
+---
+
+# 6.2 Empty Series
+
+A Series may exist without Episodes.
+
+However:
+
+A Series cannot be published while empty.
+
+---
+
+# 6.3 Series Visibility
+
+MVP supports:
+
+```text
+Public
+```
+
+Future:
+
+```text
+Restricted
+
+Private
+```
+
+---
+
+# 7. Season Management
+
+---
+
+# 7.1 Optional Seasons
+
+Seasons are optional.
+
+Supported structures:
+
+Option A:
+
+```text
+Series
+
+    Episode 1
+
+    Episode 2
+```
+
+Option B:
+
+```text
+Series
+
+    Season 1
+
+        Episode 1
+
+        Episode 2
+```
+
+---
+
+# 8. Episode Management
+
+---
+
+# 8.1 Create Episode
+
+Creators can create Episodes.
+
+Required:
+
+* Title
+* Description
+* Episode number
+* PG rating
+
+---
+
+# 8.2 Episode States
+
+MVP:
+
+```text
+Draft
+
+Published
+
+Deleted
+```
+
+---
+
+# 8.3 Episode Publishing Requirements
+
+An Episode can only be published if:
+
+```text
+Page 1 exists
+
+AND
+
+Page 1 is published
+```
+
+---
+
+# 8.4 Episode Editing
+
+Creators can edit published Episodes.
+
+Editing creates a new revision.
+
+Workflow:
+
+```text
+Published Episode
+
+↓
+
+Edit
+
+↓
+
+Revision
+
+↓
+
+Preview
+
+↓
+
+Publish Revision
+```
+
+---
+
+# 9. Page Management
+
+---
+
+# 9.1 Create Page
+
+Creators can create Pages inside Episodes.
+
+---
+
+# 9.2 Page Requirements
+
+Minimum:
+
+```text
+1 Page
+```
+
+Maximum:
+
+```text
+100 Pages
+```
+
+(Configurable)
+
+---
+
+# 9.3 Page Ordering
+
+Creators can reorder Pages during design.
+
+---
+
+# 9.4 Page Duplication
+
+Creators can:
+
+* duplicate Pages,
+* copy Pages between Episodes.
+
+---
+
+# 9.5 Page Deletion
+
+Pages may be deleted.
+
+Deleted Pages:
+
+* are hidden,
+* are skipped during playback,
+* may be restored.
+
+---
+
+# 10. Media Management
+
+---
+
+# 10.1 Supported Media Types
+
+MVP:
+
+* Images
+* GIFs
+* Video
+* Audio
+* Text boxes
+
+---
+
+# 10.2 Media Upload
+
+Creators can upload media assets.
+
+Uploaded media can be reused.
+
+---
+
+# 10.3 Media Limits
+
+Maximum Story Components per Page:
+
+```text
+500
+```
+
+(Configurable)
+
+---
+
+# 11. Page Design System
+
+---
+
+# 11.1 Canvas
+
+Creators design Pages using a Canvas.
+
+---
+
+# 11.2 Canvas Requirements
+
+The Creator defines:
+
+* orientation,
+* size,
+* component placement.
+
+---
+
+# 11.3 Viewer Scaling
+
+The Viewer Canvas:
+
+* adapts to screen size,
+* maintains proportions,
+* supports zoom.
+
+---
+
+# 11.4 Component Placement
+
+MVP supports:
+
+Option A:
+
+Manual placement.
+
+Option B:
+
+Automatic arrangement.
+
+---
+
+# 12. Playback System
+
+---
+
+# 12.1 Playback Modes
+
+The viewer can:
+
+---
+
+## Play Component
+
+The viewer selects one component.
+
+---
+
+## Play Page
+
+The current Page plays according to its timeline.
+
+---
+
+## Play Episode
+
+The Episode plays sequentially.
+
+---
+
+# 12.2 Timeline Controls
+
+Each component may define:
+
+* playback order,
+* start time,
+* duration,
+* overlap,
+* effects.
+
+---
+
+# 12.3 Audio Playback
+
+Pages may contain an audio track.
+
+During Page playback:
+
+Audio plays while visual components display.
+
+---
+
+# 13. Publishing Workflow
+
+---
+
+# 13.1 Creator Workflow
+
+The standard workflow:
+
+```text
+Create Channel
+
+↓
+
+Create Series
+
+↓
+
+Create Season (optional)
+
+↓
+
+Create Episode
+
+↓
+
+Upload Media
+
+↓
+
+Create Pages
+
+↓
+
+Design Pages
+
+↓
+
+Preview
+
+↓
+
+Publish
+```
+
+---
+
+# 13.2 Preview
+
+Creators can preview:
+
+* Pages,
+* Episodes.
+
+Deleted Pages are ignored.
+
+---
+
+# 13.3 Publishing
+
+Publishing makes content available according to visibility settings.
+
+---
+
+# 14. Discovery
+
+---
+
+# 14.1 Search
+
+Viewers can search:
+
+* Channel name,
+* Channel tags,
+* Series title,
+* Episode title,
+* Content description.
+
+---
+
+# 14.2 Discovery Priority
+
+Discovery should prioritize:
+
+1. Channel identity
+2. Story topic
+3. Content quality
+
+---
+
+# 15. Viewer Interaction
+
+---
+
+# 15.1 Comments
+
+Viewers can:
+
+* comment,
+* reply.
+
+---
+
+# 15.2 Reviews
+
+Viewers may review published content.
+
+---
+
+# 16. Content Rating
+
+---
+
+# 16.1 PG Rating Requirement
+
+Channels, Series, and Episodes must define a viewer rating.
+
+---
+
+# Purpose
+
+Ratings provide:
+
+* viewer guidance,
+* parental awareness,
+* content classification.
+
+---
+
+# 17. MVP Open Questions
+
+The following require future decisions:
+
+---
+
+## Authentication
+
+* What identity verification method?
+* Manual approval or automated?
+
+---
+
+## Moderation
+
+* Who reviews reported content?
+* What happens after violations?
+
+---
+
+## Search
+
+* Keyword only?
+* Tags?
+* Recommendation engine?
+
+---
+
+## Comments
+
+* Moderation?
+* User reputation?
+* Blocking?
+
+---
+
+## Storage
+
+* Maximum media sizes?
+* Video encoding rules?
+
+---
+
+## Monetization
+
+* When introduced?
+* Subscription model?
+* Creator revenue?
+
+---
+
+# 18. MVP Success Criteria
+
+The MVP succeeds if:
+
+A creator can:
+
+> Create a structured multimedia story without requiring professional video production skills.
+
+A viewer can:
+
+> Discover and experience a story format that feels fundamentally different from existing platforms.
+
+---
+
+# End of Document — Functional Specification MVP v0.1
+
+---
+
