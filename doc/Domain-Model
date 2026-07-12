@@ -1,0 +1,1461 @@
+
+# SFC — Story First Culture
+
+# Domain Model Specification
+
+**Document Version:** 0.1
+**Status:** Draft
+**Last Updated:** 2026-07-12
+
+---
+
+# 1. Purpose
+
+This document defines the conceptual domain model of SFC.
+
+The purpose of the domain model is to describe:
+
+* the major entities within SFC,
+* relationships between entities,
+* business rules,
+* ownership,
+* visibility,
+* lifecycle,
+* and publishing behavior.
+
+This document represents the business reality that the software must support.
+
+It intentionally avoids implementation details.
+
+---
+
+# 2. Domain Overview
+
+SFC is a storytelling and publishing platform.
+
+The fundamental concept is:
+
+> A Creator publishes Stories through Channels using a structured multimedia format.
+
+The basic content hierarchy is:
+
+```
+Creator
+
+    Channel
+
+        Series
+
+            Season (optional)
+
+                Episode
+
+                    Page
+
+                        Story Components
+```
+
+---
+
+# 3. Domain Philosophy
+
+Traditional social platforms are usually organized around:
+
+```
+User → Post → Media
+```
+
+SFC is organized around:
+
+```
+Creator → Publisher → Story → Experience
+```
+
+The content structure is designed to preserve:
+
+* context,
+* narrative flow,
+* creator intent,
+* viewer experience.
+
+---
+
+# 4. Entity Relationship Overview
+
+High-level relationship:
+
+```
+User Account
+
+    owns
+
+Creator Identity
+
+    owns
+
+Channels
+
+    contain
+
+Series
+
+    contain
+
+Seasons (optional)
+
+    contain
+
+Episodes
+
+    contain
+
+Pages
+
+    contain
+
+Story Components
+
+    reference
+
+Media Assets
+```
+
+---
+
+# 5. Core Entities
+
+---
+
+# 5.1 User Account
+
+## Definition
+
+A User Account represents an authenticated identity registered with SFC.
+
+The account provides access to the platform and manages ownership relationships.
+
+---
+
+## Responsibilities
+
+A User Account manages:
+
+* authentication,
+* security,
+* ownership,
+* creator identity,
+* account settings.
+
+---
+
+## Public Visibility
+
+A User Account is not the primary public identity.
+
+The account exists primarily for:
+
+* platform security,
+* accountability,
+* permissions.
+
+---
+
+## Relationship
+
+A User Account may have:
+
+```
+One User Account
+
+    owns
+
+One Creator Identity
+```
+
+---
+
+## Future Extensions
+
+A future User Account may represent:
+
+* individuals,
+* organizations,
+* classrooms,
+* teams,
+* projects.
+
+---
+
+# 5.2 Creator Identity
+
+## Definition
+
+A Creator Identity represents the person or entity responsible for creating content.
+
+---
+
+## Purpose
+
+The Creator Identity establishes:
+
+* accountability,
+* attribution,
+* ownership relationship.
+
+---
+
+## Public Visibility
+
+The Creator Identity may be publicly visible.
+
+However:
+
+The Channel is the primary public identity.
+
+---
+
+## Example
+
+```
+Creator:
+
+Jane Smith
+
+
+Channels:
+
+- Woodworking Adventures
+- My European Travels
+- Science Simplified
+```
+
+---
+
+## Relationship
+
+```
+User Account
+
+    1 : 1
+
+Creator Identity
+
+    1 : many
+
+Channels
+```
+
+---
+
+# 5.3 Channel
+
+## Definition
+
+A Channel is the primary publishing identity on SFC.
+
+A Channel represents the entity that viewers discover, follow, and associate with published content.
+
+---
+
+## Purpose
+
+A Channel provides:
+
+* public identity,
+* content organization,
+* publisher reputation.
+
+---
+
+## Examples
+
+```
+Channel:
+
+The Backyard Workshop
+
+
+Channel:
+
+Exploring Ancient Civilizations
+
+
+Channel:
+
+Physics Explained
+```
+
+---
+
+## Ownership
+
+A Channel has:
+
+* one owner in MVP,
+* future support for multiple collaborators.
+
+---
+
+## User Limits
+
+MVP:
+
+```
+Maximum Channels per Creator:
+
+3
+```
+
+Future:
+
+Additional Channels may be purchased.
+
+---
+
+## Lifecycle
+
+A Channel has the following states:
+
+```
+Active
+
+Archived
+
+Deleted
+```
+
+---
+
+## Rules
+
+A Channel:
+
+* cannot be permanently deleted immediately,
+* must first be archived,
+* deletion requires an explicit request.
+
+---
+
+## Visibility
+
+A Channel may be:
+
+```
+Public
+
+Private
+```
+
+Private Channels are future-oriented and intended for controlled sharing.
+
+---
+
+## Discoverability
+
+A Channel without published content is not searchable.
+
+Minimum requirement:
+
+```
+At least one published Page
+```
+
+---
+
+# 5.4 Series
+
+## Definition
+
+A Series is a collection of related Episodes organized around a common theme, topic, or story.
+
+---
+
+## Examples
+
+```
+Channel:
+
+Backyard Workshop
+
+
+Series:
+
+Building My First Sailboat
+```
+
+---
+
+## Rules
+
+A Series:
+
+* may initially be empty,
+* cannot be published while empty.
+
+---
+
+## Visibility
+
+A Series supports:
+
+```
+Public
+
+Restricted
+
+Private
+```
+
+---
+
+## Relationship
+
+```
+Channel
+
+    contains
+
+Many Series
+```
+
+---
+
+## Future Use
+
+A Series may represent:
+
+* a subscription product,
+* a course,
+* a story universe,
+* a content collection.
+
+---
+
+# 5.5 Season
+
+## Definition
+
+A Season is an optional grouping mechanism for Episodes within a Series.
+
+---
+
+## Purpose
+
+Seasons allow creators to organize long-running content.
+
+Example:
+
+```
+Series:
+
+Building a House
+
+
+Season 1:
+
+Planning
+
+
+Season 2:
+
+Construction
+
+
+Season 3:
+
+Finishing
+```
+
+---
+
+## Rules
+
+Seasons are optional.
+
+Episodes may exist directly under a Series.
+
+---
+
+## Visibility
+
+A Season follows the same visibility rules as other content objects.
+
+---
+
+# 5.6 Episode
+
+## Definition
+
+An Episode is a complete story segment.
+
+An Episode consists of one or more Pages.
+
+---
+
+## Lifecycle
+
+MVP:
+
+```
+Draft
+
+Published
+
+Deleted
+```
+
+Future:
+
+```
+Archived
+
+Scheduled
+```
+
+---
+
+## Publishing Requirement
+
+An Episode requires:
+
+```
+Page 1 exists
+
+AND
+
+Page 1 is published
+```
+
+before the Episode can be published.
+
+---
+
+## Relationship
+
+```
+Series
+
+    contains
+
+Episodes
+```
+
+or:
+
+```
+Series
+
+    contains
+
+Seasons
+
+        contain
+
+        Episodes
+```
+
+---
+
+# 5.7 Page
+
+## Definition
+
+A Page is the fundamental storytelling unit inside an Episode.
+
+A Page represents a single scene or moment in the story.
+
+Unlike a traditional document page, an SFC Page is a multimedia composition containing:
+
+* visual elements,
+* text,
+* animation,
+* audio,
+* timing,
+* transitions,
+* interactions.
+
+---
+
+## Purpose
+
+Pages allow creators to structure stories in a format inspired by:
+
+* comic books,
+* illustrated books,
+* presentations,
+* documentaries,
+* interactive media.
+
+---
+
+## Page Requirements
+
+An Episode must contain:
+
+```text
+Minimum Pages:
+
+1
+
+Maximum Pages:
+
+100 (configurable)
+```
+
+---
+
+## Page Numbering
+
+Each Episode must contain:
+
+```text
+Page 1
+```
+
+Page 1 is mandatory.
+
+---
+
+## Page Ordering
+
+Pages may be reordered by the creator during design.
+
+The order determines playback sequence.
+
+---
+
+## Page Duplication
+
+Creators may:
+
+* duplicate a Page within an Episode,
+* copy a Page between Episodes.
+
+A duplicated or copied Page becomes an independent object.
+
+Changes to the copy do not affect the original.
+
+---
+
+## Page Lifecycle
+
+A Page may exist in:
+
+```text
+Draft
+
+Published
+
+Deleted
+```
+
+---
+
+## Deleted Pages
+
+Deleted Pages:
+
+* are not permanently destroyed immediately,
+* are skipped during playback,
+* may be restored before permanent removal.
+
+---
+
+# 5.8 Story Component
+
+## Definition
+
+A Story Component is an individual element placed on a Page.
+
+A Page is composed of one or more Story Components.
+
+---
+
+## Examples
+
+A Page may contain:
+
+```text
+Page:
+
+"Building the Chair"
+
+
+Components:
+
+- Title text
+- Photo of materials
+- Video demonstration
+- Audio explanation
+- Diagram
+```
+
+---
+
+## Component Types
+
+MVP supported types:
+
+### Media Components
+
+* Photo
+* GIF
+* Video
+* Audio
+
+### Text Components
+
+* Editable text boxes
+
+---
+
+## Component Properties
+
+Each Story Component may define:
+
+### Position
+
+The location on the Canvas.
+
+---
+
+### Size
+
+The dimensions of the component.
+
+---
+
+### Playback Order
+
+Defines when the component begins relative to other components.
+
+---
+
+### Timing
+
+Defines:
+
+* start time,
+* duration,
+* completion behavior.
+
+---
+
+### Effects
+
+MVP effects:
+
+* Zoom in/out
+* Scroll left/right
+* Scroll top/bottom
+* Page peel
+* Fade in/out
+
+---
+
+### Overlap Behavior
+
+A component may:
+
+```text
+Overlay:
+
+The component covers existing content.
+
+
+Non-overlay:
+
+The component plays inside its defined area.
+```
+
+---
+
+# 5.9 Media Asset
+
+## Definition
+
+A Media Asset is a stored piece of uploaded media that may be used as a Story Component.
+
+---
+
+## Supported MVP Types
+
+```text
+Image
+
+GIF
+
+Video
+
+Audio
+```
+
+---
+
+## Relationship
+
+A Media Asset:
+
+```text
+may be used by multiple Story Components
+```
+
+---
+
+## Example
+
+A creator uploads:
+
+```text
+chair-building-video.mp4
+```
+
+The asset may be used:
+
+* on Page 2,
+* Page 5,
+* another Episode.
+
+---
+
+## Future Considerations
+
+Future Media Assets may include:
+
+* captions,
+* subtitles,
+* AI-generated animations,
+* alternate formats.
+
+---
+
+# 6. Content Hierarchy Rules
+
+The SFC hierarchy follows these rules:
+
+---
+
+# Rule 1 — Parent / Child Visibility
+
+A child object may have:
+
+* the same visibility as its parent,
+* higher visibility than its parent.
+
+A child may never have lower visibility.
+
+---
+
+## Visibility Ranking
+
+Highest visibility:
+
+```text
+Public
+```
+
+↓
+
+```text
+Restricted
+```
+
+↓
+
+```text
+Private
+```
+
+---
+
+## Valid Example
+
+```text
+Series:
+
+Restricted
+
+
+Season:
+
+Restricted
+
+
+Episode:
+
+Public
+```
+
+The Episode can be publicly accessible.
+
+---
+
+## Invalid Example
+
+```text
+Series:
+
+Public
+
+
+Season:
+
+Restricted
+```
+
+The Season cannot reduce visibility below its parent.
+
+---
+
+# Rule 2 — Published Content Requirement
+
+A content object is only discoverable when it contains meaningful published content.
+
+Requirements:
+
+---
+
+## Channel
+
+Requires:
+
+```text
+At least one published Page
+```
+
+through its content hierarchy.
+
+---
+
+## Series
+
+Requires:
+
+```text
+At least one published Page
+```
+
+---
+
+## Season
+
+Requires:
+
+```text
+At least one published Page
+```
+
+---
+
+## Episode
+
+Requires:
+
+```text
+Page 1 exists
+
+AND
+
+Page 1 is published
+```
+
+---
+
+# Rule 3 — Empty Structures Are Allowed
+
+Creators may create incomplete structures.
+
+Examples:
+
+Valid:
+
+```text
+Channel
+
+    New Series
+
+        No Episodes Yet
+```
+
+Invalid:
+
+```text
+Publish Series
+```
+
+because it contains no published story.
+
+---
+
+# 7. Ownership Model
+
+---
+
+# 7.1 Ownership Principle
+
+Ownership and public identity are separate concepts.
+
+The Creator owns content.
+
+The Channel publishes content.
+
+---
+
+# 7.2 MVP Ownership
+
+MVP:
+
+```text
+User Account
+
+    owns
+
+Creator Identity
+
+    owns
+
+Channel
+
+    owns
+
+Content
+```
+
+---
+
+# 7.3 Future Collaboration Model
+
+Future versions may introduce:
+
+* collaborators,
+* roles,
+* organizations,
+* classrooms,
+* project teams.
+
+Possible roles:
+
+```text
+Owner
+
+Editor
+
+Contributor
+
+Reviewer
+
+Viewer
+```
+
+---
+
+# 7.4 Channel Transfer
+
+Channel ownership transfer is supported.
+
+Possible future scenarios:
+
+* organization ownership,
+* project transfer,
+* creator retirement,
+* acquisition.
+
+---
+
+# 8. Visibility Model
+
+---
+
+# 8.1 Purpose
+
+Visibility controls who may discover and access content.
+
+---
+
+# 8.2 Visibility Levels
+
+## Public
+
+Accessible by everyone.
+
+Content is:
+
+* searchable,
+* viewable,
+* shareable.
+
+---
+
+## Restricted
+
+Visible to the public as an existing object.
+
+Access requires permission.
+
+Examples:
+
+* paid content,
+* groups,
+* classrooms.
+
+---
+
+## Private
+
+Not publicly visible.
+
+Accessible only to authorized users.
+
+Examples:
+
+* family sharing,
+* private projects.
+
+---
+
+# 8.3 Future Access Models
+
+Future versions may support:
+
+* subscriptions,
+* memberships,
+* classroom access,
+* organizations,
+* fan groups.
+
+---
+
+# 9. Lifecycle Model
+
+---
+
+# 9.1 Channel Lifecycle
+
+```text
+Active
+ |
+ |
+Archived
+ |
+ |
+Deleted
+```
+
+---
+
+## Active
+
+Normal operation.
+
+---
+
+## Archived
+
+No longer actively promoted.
+
+Still recoverable.
+
+---
+
+## Deleted
+
+Removed after explicit request.
+
+Not an immediate action.
+
+---
+
+# 9.2 Episode Lifecycle
+
+MVP:
+
+```text
+Draft
+
+Published
+
+Deleted
+```
+
+---
+
+## Draft
+
+Creator editing state.
+
+Not visible publicly.
+
+---
+
+## Published
+
+Available according to visibility settings.
+
+---
+
+## Deleted
+
+Removed from normal viewing.
+
+Recoverable according to deletion rules.
+
+---
+
+# 10. Publishing Model
+
+---
+
+# 10.1 Publishing Principle
+
+Publishing makes creator content available to viewers according to visibility rules.
+
+---
+
+# 10.2 Publishing Workflow
+
+General workflow:
+
+```text
+Create
+
+↓
+
+Edit
+
+↓
+
+Preview
+
+↓
+
+Publish
+```
+
+---
+
+# 10.3 Preview
+
+Before publishing:
+
+Creators may preview:
+
+* Pages,
+* Episodes,
+* Playback behavior.
+
+Deleted Pages are excluded from preview.
+
+---
+
+# 10.4 Published Editing
+
+Published content remains editable.
+
+Workflow:
+
+```text
+Published Content
+
+↓
+
+Create Revision
+
+↓
+
+Edit
+
+↓
+
+Preview
+
+↓
+
+Publish Revision
+
+↓
+
+Replace Published Version
+```
+
+---
+
+# 10.5 Revision History
+
+MVP:
+
+No full revision history.
+
+Publishing a revision replaces the previous published version.
+
+---
+
+# 11. Playback Model
+
+---
+
+# 11.1 Purpose
+
+Playback presents the creator's intended storytelling experience.
+
+---
+
+# 11.2 Playback Modes
+
+## Episode Playback
+
+Plays:
+
+```text
+Episode
+
+Page 1
+
+Page 2
+
+Page 3
+
+...
+```
+
+automatically.
+
+---
+
+## Page Playback
+
+Starts playback from the current Page.
+
+Acts as a resume point.
+
+---
+
+## Component Playback
+
+Viewer selects an individual component.
+
+Example:
+
+Click:
+
+* image,
+* video,
+* animation.
+
+---
+
+# 11.3 Canvas Model
+
+SFC uses a responsive Canvas model.
+
+---
+
+## Creator View
+
+Creator designs using:
+
+* chosen orientation,
+* defined dimensions,
+* component placement.
+
+---
+
+## Viewer View
+
+The Canvas:
+
+* scales to device size,
+* preserves proportions,
+* supports zoom.
+
+---
+
+## Device Support
+
+Designed for:
+
+* desktop,
+* tablet,
+* mobile.
+
+---
+
+# 12. Future Domain Extensions
+
+The following concepts are intentionally outside MVP but should be considered in future architecture.
+
+---
+
+# Collaboration
+
+Multiple creators working together.
+
+---
+
+# Organizations
+
+Accounts representing:
+
+* schools,
+* companies,
+* teams.
+
+---
+
+# Groups
+
+Controlled access communities.
+
+Examples:
+
+* family,
+* fans,
+* classrooms.
+
+---
+
+# Monetization
+
+Future possibilities:
+
+* subscriptions,
+* paid Series,
+* premium Episodes,
+* creator revenue sharing.
+
+---
+
+# AI-Assisted Storytelling
+
+Future possibilities:
+
+* animation assistance,
+* narration,
+* translation,
+* content enhancement.
+
+---
+
+# Summary
+
+The SFC Domain Model defines the platform as:
+
+```text
+A publishing system where creators build structured multimedia stories through Channels, Series, Episodes, Pages, and Story Components.
+```
+
+The core principles are:
+
+* Channel as publisher identity.
+* Story hierarchy before media.
+* Creator accountability.
+* Structured multimedia experiences.
+* Controlled visibility.
+* Flexible future expansion.
+
+---
+
+**End of Document — Domain Model v0.1**
+
+---
+
+
